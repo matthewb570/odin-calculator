@@ -22,7 +22,7 @@ let resetScreenOnNextButtonPress = true;
 
 let num1 = 0;
 let num2 = 0;
-let operator;
+let operator = "";
 
 addEventHandlers();
 
@@ -45,6 +45,8 @@ function addEventHandlers() {
     btnDivide.addEventListener("click", handleOperatorButtonPress);
 
     btnEquals.addEventListener("click", handleEqualsButtonPress);
+
+    btnClear.addEventListener("click", handleClearButtonPress);
 }
 
 function handleNumberButtonPress(event) {
@@ -65,6 +67,14 @@ function handleOperatorButtonPress(event) {
 function handleEqualsButtonPress(event) {
     num2 = divScreen.textContent;
     divScreen.textContent = operate(+num1, +num2, operator);
+    resetScreenOnNextButtonPress = true;
+}
+
+function handleClearButtonPress(event) {
+    num1 = 0;
+    num2 = 0;
+    operator = "";
+    divScreen.textContent = "0";
     resetScreenOnNextButtonPress = true;
 }
 

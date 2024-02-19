@@ -18,10 +18,10 @@ const btnEquals = document.querySelector("#btnEquals");
 
 const divScreen = document.querySelector("#divScreen");
 
-let currentExpression = "";
+let resetScreenOnNextButtonPress = true;
 
-let num1;
-let num2;
+let num1 = 0;
+let num2 = 0;
 let operator;
 
 addEventHandlers();
@@ -38,11 +38,34 @@ function addEventHandlers() {
     btn8.addEventListener("click", handleNumberButtonPress);
     btn9.addEventListener("click", handleNumberButtonPress);
     btnDecimal.addEventListener("click", handleNumberButtonPress);
+
+    btnAdd.addEventListener("click", handleOperatorButtonPress);
+    btnSubtract.addEventListener("click", handleOperatorButtonPress);
+    btnMultiply.addEventListener("click", handleOperatorButtonPress);
+    btnDivide.addEventListener("click", handleOperatorButtonPress);
+
+    btnEquals.addEventListener("click", handleEqualsButtonPress);
 }
 
 function handleNumberButtonPress(event) {
-    currentExpression += event.target.textContent;
-    divScreen.textContent = currentExpression;
+    if (resetScreenOnNextButtonPress) {
+        divScreen.textContent = event.target.textContent;
+        resetScreenOnNextButtonPress = false;
+    } else {
+        divScreen.textContent += event.target.textContent;
+    }
+}
+
+function handleOperatorButtonPress(event) {
+    num1 = divScreen.textContent;
+    operator = event.target.textContent;
+    resetScreenOnNextButtonPress = true;
+}
+
+function handleEqualsButtonPress(event) {
+    num2 = divScreen.textContent;
+    divScreen.textContent = operate(+num1, +num2, operator);
+    resetScreenOnNextButtonPress = true;
 }
 
 function operate(num1, num2, operator) {

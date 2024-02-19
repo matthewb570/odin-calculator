@@ -59,7 +59,14 @@ function handleNumberButtonPress(event) {
 }
 
 function handleOperatorButtonPress(event) {
-    num1 = divScreen.textContent;
+    if (operator !== undefined && operator !== null && operator !== "") {
+        num2 = divScreen.textContent;
+        num1 = operate(+num1, +num2, operator);
+        divScreen.textContent = num1;
+        num2 = 0;
+    } else {
+        num1 = divScreen.textContent;
+    }
     operator = event.target.textContent;
     resetScreenOnNextButtonPress = true;
 }
@@ -67,6 +74,9 @@ function handleOperatorButtonPress(event) {
 function handleEqualsButtonPress(event) {
     num2 = divScreen.textContent;
     divScreen.textContent = operate(+num1, +num2, operator);
+    num1 = 0;
+    num2 = 0;
+    operator = "";
     resetScreenOnNextButtonPress = true;
 }
 

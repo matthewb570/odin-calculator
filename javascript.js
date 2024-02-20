@@ -111,8 +111,12 @@ function setErrorState() {
 }
 
 function roundNumberForDisplay(number) {
-    
-    if (number > 999999999999999) {
+
+    if (isNaN(number)) {
+        return number;
+    }
+
+    if (number > 999999999999999 || number < -999999999999999) {
         return "ERROR";
     }
 
@@ -167,5 +171,8 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
+    if (num2 === 0) {
+        return "¯\\_(ツ)_/¯"
+    }
     return num1 / num2;
 }

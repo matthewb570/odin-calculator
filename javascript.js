@@ -51,37 +51,66 @@ function addEventHandlers() {
     btnEquals.addEventListener("click", handleEqualsButtonPress);
 
     btnClear.addEventListener("click", handleClearButtonPress);
+
+    document.addEventListener("keydown", handleKeyboardInput);
+}
+
+function handleKeyboardInput(event) {
+    if (!isNaN(event.key)) {
+        processNumberInput(event.key);
+    } else if (event.key === ".") {
+        processDecimalInput();
+    } else if (event.key === "+" || event.key === "-" || event.key === "*" ||
+        event.key === "/") {
+        processOperatorInput(event.key);
+    } else if (event.key === "=" || event.key.toLowerCase() === "enter") {
+        processEqualsInput();
+    } else if (event.key.toLowerCase() === "backspace") {
+        processClearInput();
+    }
 }
 
 function handleNumberButtonPress(event) {
+    processNumberInput(event.target.textContent);
+}
+
+function processNumberInput(input) {
     if (inErrorState) {
         return;
     }
     
     if (resetScreenOnNextButtonPress) {
-        divScreen.textContent = event.target.textContent;
+        divScreen.textContent = input;
         resetScreenOnNextButtonPress = false;
     } else {
-        divScreen.textContent += event.target.textContent;
+        divScreen.textContent += input;
     }
 }
 
 function handleDecimalButtonPress(event) {
+    processDecimalInput();
+}
+
+function processDecimalInput() {
     if (inErrorState || !decimalButtonActive) {
         return;
     }
 
     if (resetScreenOnNextButtonPress) {
-        divScreen.textContent = `0${event.target.textContent}`;
+        divScreen.textContent = "0.";
         resetScreenOnNextButtonPress = false;
     } else {
-        divScreen.textContent += event.target.textContent;
+        divScreen.textContent += ".";
     }
 
     decimalButtonActive = false;
 }
 
 function handleOperatorButtonPress(event) {
+    processOperatorInput(event.target.textContent);
+}
+
+function processOperatorInput(input) {
     if (inErrorState) {
         return;
     }
@@ -95,12 +124,16 @@ function handleOperatorButtonPress(event) {
     } else {
         num1 = divScreen.textContent;
     }
-    operator = event.target.textContent;
+    operator = input;
     resetScreenOnNextButtonPress = true;
     decimalButtonActive = true;
 }
 
 function handleEqualsButtonPress(event) {
+    processEqualsInput();
+}
+
+function processEqualsInput() {
     if (inErrorState) {
         return;
     }
@@ -116,6 +149,10 @@ function handleEqualsButtonPress(event) {
 }
 
 function handleClearButtonPress(event) {
+    processClearInput();
+}
+
+function processClearInput() {
     num1 = 0;
     num2 = 0;
     operator = "";

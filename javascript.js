@@ -22,6 +22,7 @@ const divScreen = document.querySelector("#divScreen");
 
 let resetScreenOnNextButtonPress = true;
 let inErrorState = false;
+let decimalButtonActive = true;
 
 let num1 = 0;
 let num2 = 0;
@@ -40,7 +41,7 @@ function addEventHandlers() {
     btn7.addEventListener("click", handleNumberButtonPress);
     btn8.addEventListener("click", handleNumberButtonPress);
     btn9.addEventListener("click", handleNumberButtonPress);
-    btnDecimal.addEventListener("click", handleNumberButtonPress);
+    btnDecimal.addEventListener("click", handleDecimalButtonPress);
 
     btnAdd.addEventListener("click", handleOperatorButtonPress);
     btnSubtract.addEventListener("click", handleOperatorButtonPress);
@@ -65,6 +66,21 @@ function handleNumberButtonPress(event) {
     }
 }
 
+function handleDecimalButtonPress(event) {
+    if (inErrorState || !decimalButtonActive) {
+        return;
+    }
+
+    if (resetScreenOnNextButtonPress) {
+        divScreen.textContent = `0${event.target.textContent}`;
+        resetScreenOnNextButtonPress = false;
+    } else {
+        divScreen.textContent += event.target.textContent;
+    }
+
+    decimalButtonActive = false;
+}
+
 function handleOperatorButtonPress(event) {
     if (inErrorState) {
         return;
@@ -81,6 +97,7 @@ function handleOperatorButtonPress(event) {
     }
     operator = event.target.textContent;
     resetScreenOnNextButtonPress = true;
+    decimalButtonActive = true;
 }
 
 function handleEqualsButtonPress(event) {
@@ -94,6 +111,7 @@ function handleEqualsButtonPress(event) {
     num2 = 0;
     operator = "";
     resetScreenOnNextButtonPress = true;
+    decimalButtonActive = true;
     setErrorState();
 }
 
@@ -103,6 +121,7 @@ function handleClearButtonPress(event) {
     operator = "";
     divScreen.textContent = "0";
     resetScreenOnNextButtonPress = true;
+    decimalButtonActive = true;
     setErrorState();
 }
 

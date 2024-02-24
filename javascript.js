@@ -1,4 +1,4 @@
-const MAX_DIGITS_IN_DECIMAL_NUMBER = 14; // Max string length (15) minus the decimal point
+const MAX_DIGITS_IN_DECIMAL_NUMBER = 16; // Max string length (15) minus the decimal point
 
 const btn0 = document.querySelector("#btn0");
 const btn1 = document.querySelector("#btn1");
@@ -29,6 +29,7 @@ let num2 = 0;
 let operator = "";
 
 addEventHandlers();
+handleWindowResize();
 
 function addEventHandlers() {
     btn0.addEventListener("click", handleNumberButtonPress);
@@ -53,6 +54,11 @@ function addEventHandlers() {
     btnClear.addEventListener("click", handleClearButtonPress);
 
     document.addEventListener("keydown", handleKeyboardInput);
+    window.addEventListener("resize", handleWindowResize);
+}
+
+function handleWindowResize() {
+    document.body.style.height = `${window.innerHeight}px`;
 }
 
 function handleKeyboardInput(event) {
